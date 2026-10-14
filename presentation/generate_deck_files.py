@@ -1,0 +1,1780 @@
+# -*- coding: utf-8 -*-
+"""
+EDITH Pitch Deck HTML Builder — Enhanced Visual & Content Density Edition
+Full 16-Slide 16:9 Widescreen Presentation (1920x1080)
+"""
+
+import os
+import subprocess
+import pymupdf
+
+WORKSPACE = r"c:\Users\PURUSOUTHANAN\OneDrive\Desktop\EDITH"
+HTML_PATH = os.path.join(WORKSPACE, "presentation.html")
+PDF_PATH = os.path.join(WORKSPACE, "EDITH_Hackathon_Pitch_Deck.pdf")
+ASSETS_DIR = os.path.join(WORKSPACE, "EDITH_Presentation_Assets")
+os.makedirs(ASSETS_DIR, exist_ok=True)
+
+CHROME_PATH = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+if not os.path.exists(CHROME_PATH):
+    CHROME_PATH = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+def build_enhanced_html():
+    slides = []
+
+    # ==========================================
+    # SLIDE 1: COVER
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-1">
+        <div class="slide-content-wrap">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(76, 145, 255, 0.25); padding-bottom: 16px;">
+                <div class="section-eyebrow">HEALTHCARE DISASTER COORDINATION PLATFORM · FLOOD & CYCLONE EMERGENCY RESPONSE</div>
+                <div class="slide-badge"><span style="color:#2BDCE0;">●</span> HACKATHON INNOVATION DECK</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin: 30px 0 20px 0;">
+                <div style="display: inline-flex; align-items: center; gap: 14px; margin-bottom: 24px; background: rgba(43, 220, 224, 0.1); border: 1px solid rgba(43, 220, 224, 0.4); padding: 10px 28px; border-radius: 30px;">
+                    <span style="font-size: 24px;">⚡</span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: #2BDCE0; letter-spacing: 2px;">OFFLINE-AWARE · REQUEST-CENTRIC · ACID VERIFIED</span>
+                </div>
+
+                <h1 style="font-size: 104px; font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 18px; background: linear-gradient(135deg, #FFFFFF 30%, #2BDCE0 75%, #4C91FF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    EDITH
+                </h1>
+                
+                <h2 style="font-size: 34px; font-weight: 700; color: #E2ECF8; letter-spacing: 0.5px; margin-bottom: 18px;">
+                    Emergency Dispatch & Intelligence Tracking Hub
+                </h2>
+
+                <p style="font-size: 23px; font-weight: 400; color: #2BDCE0; max-width: 1100px; line-height: 1.4; margin-bottom: 34px; font-style: italic;">
+                    "From fragmented emergency updates to accountable healthcare coordination."
+                </p>
+
+                <!-- 4 Highlight Cards -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1500px; margin-bottom: 10px;">
+                    <div class="card" style="text-align: left; border-left: 4px solid #2BDCE0; padding: 22px 24px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">CORE CAPABILITY</div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Offline-First Outbox</div>
+                        <div style="font-size: 14px; color: #A3B4CC; line-height: 1.45;">Service Worker + IndexedDB outbox preserves field requests without network.</div>
+                    </div>
+                    <div class="card" style="text-align: left; border-left: 4px solid #4C91FF; padding: 22px 24px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">OPERATIONAL MODEL</div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Request-Centric Model</div>
+                        <div style="font-size: 14px; color: #A3B4CC; line-height: 1.45;">Facilities volunteer spare resources on demand; zero forced inventory exposure.</div>
+                    </div>
+                    <div class="card" style="text-align: left; border-left: 4px solid #52DCA4; padding: 22px 24px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">DATA INTEGRITY</div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Atomic Row-Locking</div>
+                        <div style="font-size: 14px; color: #A3B4CC; line-height: 1.45;">PostgreSQL ACID transactions eliminate over-allocation in race conditions.</div>
+                    </div>
+                    <div class="card" style="text-align: left; border-left: 4px solid #FFA44C; padding: 22px 24px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">NON-REPUDIATION</div>
+                        <div style="font-size: 18px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Two-Phase Verification</div>
+                        <div style="font-size: 14px; color: #A3B4CC; line-height: 1.45;">Driver drop-off does not equal delivery; recipient physician must verify receipt.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px;">
+                <div>
+                    <div style="font-size: 15px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.5px;">TEAM JARVIS</div>
+                    <div style="font-size: 13.5px; color: #2BDCE0; font-weight: 500;">Rathinam Technical Campus · Coimbatore</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #A3B4CC; margin-bottom: 4px;">PROJECT ROSTER</div>
+                    <div style="font-size: 14.5px; font-weight: 600; color: #FFFFFF;">
+                        Purusouthanan B <span style="color:#4C91FF;">(Lead)</span> · Sakthivel R · Sanjo Thomas · Sheik Arsh S
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #A3B4CC;">CORE TECHNOLOGY STACK</div>
+                    <div style="font-size: 14px; color: #52DCA4; font-weight: 600;">FastAPI · PostgreSQL 16 · Vanilla PWA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 2: MEET TEAM JARVIS
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-2">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION A · TEAM INTRODUCTION</div>
+                    <div class="slide-title">Meet Team JARVIS · Rathinam Technical Campus</div>
+                    <div class="slide-subtitle">Multidisciplinary student engineering team dedicated to solving disaster-zone healthcare coordination breakdown.</div>
+                </div>
+                <div class="slide-badge">SLIDE 02 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-4" style="margin-bottom: 8px;">
+                    <!-- Member 1 -->
+                    <div class="card card-highlight" style="padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <div class="pill pill-cyan">TEAM LEAD</div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">RTC-CSE</div>
+                        </div>
+                        <div style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Purusouthanan B</div>
+                        <div style="font-size: 13.5px; font-weight: 600; color: #2BDCE0; margin-bottom: 14px;">Product & Systems Architect</div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 14px;">
+                            Architects the end-to-end platform architecture, disaster request state machines, role-based security boundaries, and offline sync contracts.
+                        </p>
+                        <div style="background: rgba(43, 220, 224, 0.08); border-radius: 6px; padding: 10px; font-size: 11.5px; font-family: 'JetBrains Mono'; color: #2BDCE0;">
+                            Focus: State Machine Integrity & System Architecture
+                        </div>
+                    </div>
+
+                    <!-- Member 2 -->
+                    <div class="card" style="padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <div class="pill pill-blue">ENGINEERING</div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">RTC-CSE</div>
+                        </div>
+                        <div style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Sakthivel R</div>
+                        <div style="font-size: 13.5px; font-weight: 600; color: #4C91FF; margin-bottom: 14px;">Backend & API Engineer</div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 14px;">
+                            Engineers FastAPI modular monolith services, Pydantic schema validation boundaries, RESTful API endpoints, and server-side error recovery.
+                        </p>
+                        <div style="background: rgba(76, 145, 255, 0.08); border-radius: 6px; padding: 10px; font-size: 11.5px; font-family: 'JetBrains Mono'; color: #4C91FF;">
+                            Focus: Modular Monolith Services & API Reliability
+                        </div>
+                    </div>
+
+                    <!-- Member 3 -->
+                    <div class="card" style="padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <div class="pill pill-green">CLIENT SYSTEMS</div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">RTC-CSE</div>
+                        </div>
+                        <div style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Sanjo Thomas</div>
+                        <div style="font-size: 13.5px; font-weight: 600; color: #52DCA4; margin-bottom: 14px;">Frontend & Offline Systems</div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 14px;">
+                            Develops the lightweight PWA application shell, Service Worker cache strategies, IndexedDB local outbox, and automatic sync reconnection manager.
+                        </p>
+                        <div style="background: rgba(82, 220, 164, 0.08); border-radius: 6px; padding: 10px; font-size: 11.5px; font-family: 'JetBrains Mono'; color: #52DCA4;">
+                            Focus: PWA Caching & Client-Side Outbox Sync
+                        </div>
+                    </div>
+
+                    <!-- Member 4 -->
+                    <div class="card" style="padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <div class="pill pill-orange">INTEGRITY & QA</div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">RTC-CSE</div>
+                        </div>
+                        <div style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Sheik Arsh S</div>
+                        <div style="font-size: 13.5px; font-weight: 600; color: #FFA44C; margin-bottom: 14px;">Data Integrity & Verification</div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 14px;">
+                            Manages PostgreSQL relational constraints, row-level concurrency locks, idempotency verification tables, and disaster simulation chaos testing.
+                        </p>
+                        <div style="background: rgba(255, 164, 76, 0.08); border-radius: 6px; padding: 10px; font-size: 11.5px; font-family: 'JetBrains Mono'; color: #FFA44C;">
+                            Focus: Concurrency Locking & Verification Suites
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Foundation Pillars Banner -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); padding: 22px 28px;">
+                    <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 12px;">TEAM JARVIS · CORE ENGINEERING PHILOSOPHY</div>
+                    <div class="grid-4">
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                            <strong style="color: #FFFFFF;">1. Ground-Truth Analysis:</strong> Studied historical failure modes in Tamil Nadu cyclone and flood logistics breakdown.
+                        </div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                            <strong style="color: #FFFFFF;">2. Deliberate Simplicity:</strong> Avoided fragile microservice bloat in favor of a robust, highly maintainable modular monolith.
+                        </div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                            <strong style="color: #FFFFFF;">3. Zero False Guarantees:</strong> Never present un-synced offline drafts as confirmed server records.
+                        </div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                            <strong style="color: #FFFFFF;">4. Measurable Accountability:</strong> Enforce strict non-repudiation: every status shift has an immutable human actor record.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION A: TEAM INTRODUCTION</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 3: WHY THIS PROBLEM MATTERS
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-3">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION A · OPERATIONAL CONTEXT</div>
+                    <div class="slide-title">Why This Problem Matters: Healthcare in Catastrophic Disasters</div>
+                    <div class="slide-subtitle">In severe floods and cyclones, the bottleneck is rarely total supply absence, but a failure of coordination.</div>
+                </div>
+                <div class="slide-badge">SLIDE 03 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-3" style="margin-bottom: 8px;">
+                    <div class="card" style="border-top: 4px solid #FF6878; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">1. Demand Surges & Depletion</div>
+                            <div class="pill pill-red">ACUTE RISK</div>
+                        </div>
+                        <p style="font-size: 14px; color: #C2D1E5; line-height: 1.55; margin-bottom: 16px;">
+                            Floods and cyclones cause sudden, localized spikes in trauma, drowning, electrocution, waterborne contagions, and hypothermia across relief centres.
+                        </p>
+                        <div style="background: rgba(255, 104, 120, 0.08); border-radius: 8px; padding: 14px; font-size: 13px; color: #FFB3BA; line-height: 1.5;">
+                            <strong>Supplies Depleted in Hours:</strong> Medical oxygen cylinders, O-negative blood units, tetanus toxoid, pediatric IV saline, and generator diesel exhaust rapidly with zero visibility into regional backups.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">2. Fragmented Channel Chaos</div>
+                            <div class="pill pill-orange">COORDINATION GAP</div>
+                        </div>
+                        <p style="font-size: 14px; color: #C2D1E5; line-height: 1.55; margin-bottom: 16px;">
+                            Hospitals and medical camps broadcast desperate appeals across disjointed WhatsApp groups, SMS threads, informal phone calls, and paper slips.
+                        </p>
+                        <div style="background: rgba(255, 164, 76, 0.08); border-radius: 8px; padding: 14px; font-size: 13px; color: #FFDFB9; line-height: 1.5;">
+                            <strong>Fatal Distribution Asymmetry:</strong> A high-profile urban shelter receives redundant donations from 4 different donors, while an isolated medical camp 5 km away receives nothing.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">3. Severed Infrastructure</div>
+                            <div class="pill pill-blue">NETWORK DROP</div>
+                        </div>
+                        <p style="font-size: 14px; color: #C2D1E5; line-height: 1.55; margin-bottom: 16px;">
+                            High cyclone winds topple mobile towers; flooded electrical substations plunge districts into darkness; fiber backhauls are severed by uprooted trees.
+                        </p>
+                        <div style="background: rgba(76, 145, 255, 0.08); border-radius: 8px; padding: 14px; font-size: 13px; color: #C2D8FF; line-height: 1.5;">
+                            <strong>Cloud SaaS Fragility:</strong> Standard enterprise hospital management systems, EHRs, and heavy SaaS dashboards freeze or crash the moment 4G/5G drops.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process flow breakdown -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.95); border: 1px solid rgba(43, 220, 224, 0.3); padding: 20px 24px;">
+                    <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 14px;">
+                        ANATOMY OF DISASTER COORDINATION COLLAPSE (CURRENT REALITY)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                        <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div style="color: #FF6878; font-weight: 800; font-size: 12px; margin-bottom: 4px;">STAGE 1</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 4px;">Surge Demand</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Camp runs out of critical pediatric IV saline</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div style="color: #FFA44C; font-weight: 800; font-size: 12px; margin-bottom: 4px;">STAGE 2</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 4px;">Blind Shouting</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Needs blasted into 6 unmonitored WhatsApp groups</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div style="color: #2BDCE0; font-weight: 800; font-size: 12px; margin-bottom: 4px;">STAGE 3</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 4px;">No Assigned Owner</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Everyone assumes someone else is arranging supplies</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.04); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div style="color: #4C91FF; font-weight: 800; font-size: 12px; margin-bottom: 4px;">STAGE 4</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 4px;">Network Drop</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Tower battery fails; camp loses cellular connectivity</div>
+                        </div>
+                        <div style="background: rgba(255, 104, 120, 0.12); padding: 14px; border-radius: 8px; text-align: center; border: 1px solid rgba(255, 104, 120, 0.35);">
+                            <div style="color: #FF6878; font-weight: 800; font-size: 12px; margin-bottom: 4px;">OUTCOME</div>
+                            <div style="font-size: 14px; font-weight: 700; color: #FFF; margin-bottom: 4px;">Unverified Zero</div>
+                            <div style="font-size: 12px; color: #FFB3BA;">Zero accountability; supplies never arrive at destination</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION A: OPERATIONAL CONTEXT</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 4: THE PROBLEM STATEMENT
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-4">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION B · PROBLEM STATEMENT</div>
+                    <div class="slide-title">The Problem Statement: Coordination Without Accountability</div>
+                    <div class="slide-subtitle">Formalizing the critical gap in emergency healthcare response during severe weather disasters.</div>
+                </div>
+                <div class="slide-badge">SLIDE 04 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- Formal Problem Box -->
+                <div class="card card-highlight" style="padding: 24px 32px; border-left: 6px solid #2BDCE0;">
+                    <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 8px;">FORMAL HACKATHON PROBLEM STATEMENT</div>
+                    <div style="font-size: 21px; font-weight: 600; color: #FFFFFF; line-height: 1.5; font-style: italic;">
+                        "During severe floods and cyclones, hospitals and medical camps struggle to coordinate emergency resource requests because communication channels are fragmented, availability data becomes stale, ownership is unclear, and network disruptions interrupt cloud-dependent workflows."
+                    </div>
+                </div>
+
+                <!-- 5 Concrete Pain Points -->
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">PAIN POINT 01</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Fragmented Comm Channels</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            Calls, WhatsApp, SMS, and paper memos create isolated silos with zero unified operational picture.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">PAIN POINT 02</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Stale Resource Availability</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            Static spreadsheets and verbal promises don't reflect rapid field depletion or prior commitments.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">PAIN POINT 03</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Unassigned Ownership</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            Urgent requests broadcast into groups sit unacknowledged without an assigned human coordinator.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FF6878; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FF6878; font-weight: 700; margin-bottom: 6px;">PAIN POINT 04</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Unverified Fulfilment</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            "Dispatched" is conflated with "Delivered". Lost, diverted, or damaged cargo goes completely undetected.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #52DCA4; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">PAIN POINT 05</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Cloud-Only Fragility</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            Standard web applications freeze or throw connection errors the moment infrastructure loses power.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Distinction -->
+                <div style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); border-radius: 10px; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 14px; color: #D3DFEE; line-height: 1.5;">
+                        <strong style="color: #2BDCE0;">Target Scope Clarification:</strong> EDITH does not replace existing hospital ERPs or medical triage. It targets the acute coordination vacuum between independent facilities during sudden regional crises.
+                    </div>
+                    <div class="pill pill-cyan">DISASTER COORDINATION FOCUS</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION B: PROBLEM STATEMENT</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 5: EXISTING GAP VS EDITH (TABLE + CALLOUT)
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-5">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION B · COMPARATIVE ANALYSIS</div>
+                    <div class="slide-title">Existing Coordination Gap vs. The EDITH Standard</div>
+                    <div class="slide-subtitle">Moving from informal, fragile communication to structured, resilient accountability.</div>
+                </div>
+                <div class="slide-badge">SLIDE 05 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="card" style="padding: 0; overflow: hidden; border: 1px solid rgba(76, 145, 255, 0.25);">
+                    <table class="edith-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 17%;">Coordination Dimension</th>
+                                <th style="width: 25%;">Informal Channels (Phone / WhatsApp)</th>
+                                <th style="width: 25%;">Generic Dashboards / Spreadsheets</th>
+                                <th style="width: 33%; background: rgba(23, 42, 74, 0.95); color: #2BDCE0;">EDITH Platform Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Request Visibility</strong></td>
+                                <td style="color: #FF8F9C;">Siloed in private chats; no unified operational view</td>
+                                <td style="color: #FFA44C;">Passive tabular lists; zero real-time urgency sorting</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Unified regional triage queue with dynamic priority levels</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ownership & SLA</strong></td>
+                                <td style="color: #FF8F9C;">No assigned coordinator; broadcast without accountability</td>
+                                <td style="color: #FFA44C;">Ambiguous ticket states; unmonitored ticket queues</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Mandatory ICC Coordinator assignment with age timers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resource Offers</strong></td>
+                                <td style="color: #FF8F9C;">Verbal promises in chats; unverified volunteer claims</td>
+                                <td style="color: #FFA44C;">Static inventory lists disconnected from active requests</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Structured voluntary offers tied explicitly to active needs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Allocation Tracking</strong></td>
+                                <td style="color: #FF8F9C;">Severe double-promising risk across separate callers</td>
+                                <td style="color: #FFA44C;">Manual cell edits; vulnerable to simultaneous overwrites</td>
+                                <td style="color: #52DCA4; font-weight: 600;">ACID row-level locks preventing over-allocation race conditions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Partial Fulfilment</strong></td>
+                                <td style="color: #FF8F9C;">Lost in conversation history; requires manual re-asks</td>
+                                <td style="color: #FFA44C;">Binary 'Complete / Incomplete' state flags</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Automated state splitting: fulfilled quantity vs remaining need</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Delivery Confirmation</strong></td>
+                                <td style="color: #FF8F9C;">Assumed delivered upon driver dispatch call</td>
+                                <td style="color: #FFA44C;">One-sided driver click with zero recipient sign-off</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Two-phase verification: Recipient physician confirms count</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Offline Operation</strong></td>
+                                <td style="color: #FF8F9C;">Fails completely when tower battery dies or signal drops</td>
+                                <td style="color: #FFA44C;">Browser error screens; lost form drafts on submit</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Service Worker cache + IndexedDB outbox queue + retry engine</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Auditability & History</strong></td>
+                                <td style="color: #FF8F9C;">Ephemeral messages easily deleted or buried</td>
+                                <td style="color: #FFA44C;">Basic updated_at timestamp without actor identity</td>
+                                <td style="color: #52DCA4; font-weight: 600;">Immutable append-only audit trail tracking actor, time, & diff</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Strategic Summary Callout -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(43, 220, 224, 0.3); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                        <strong style="color: #2BDCE0;">Core Architectural Takeaway:</strong> EDITH replaces informal guesswork with guaranteed operational state machines. Every resource moving across the disaster zone has an authenticated origin, an assigned coordinator, and a verified destination.
+                    </div>
+                    <div class="pill pill-green">FORMAL GUARANTEES</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION B: COMPARATIVE ANALYSIS</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 6: PROPOSED SOLUTION WORKFLOW
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-6">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION B · PROPOSED SOLUTION</div>
+                    <div class="slide-title">The EDITH Operational Lifecycle: 7-Stage Accountable Coordination</div>
+                    <div class="slide-subtitle">Every emergency request moves through an explicit, state-machine-governed progression with non-repudiation.</div>
+                </div>
+                <div class="slide-badge">SLIDE 06 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- 7 Stages Horizontal Pipeline -->
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px;">
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">STAGE 1</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">SUBMITTED</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">Medical camp drafts urgent need (e.g. 20 O2 cylinders)</div>
+                        <div class="pill pill-cyan" style="margin-top: 10px; font-size: 9.5px;">CAMP USER</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">STAGE 2</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ACKNOWLEDGED</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">ICC coordinator reviews & takes operational ownership</div>
+                        <div class="pill pill-blue" style="margin-top: 10px; font-size: 9.5px;">ICC COORD</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">STAGE 3</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">OFFER MADE</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">Nearby hospital volunteers available surplus (12 units)</div>
+                        <div class="pill pill-cyan" style="margin-top: 10px; font-size: 9.5px;">DONOR FACIL</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">STAGE 4</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ASSIGNED</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">ICC authorizes allocation; DB executes row-level lock</div>
+                        <div class="pill pill-orange" style="margin-top: 10px; font-size: 9.5px;">ATOMIC LOCK</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">STAGE 5</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">IN TRANSIT</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">Logistics packages cargo, logs vehicle ID & dispatches</div>
+                        <div class="pill pill-blue" style="margin-top: 10px; font-size: 9.5px;">LOGISTICS</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">STAGE 6</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">DROP-OFF</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">Driver logs physical arrival at destination gates</div>
+                        <div class="pill pill-orange" style="margin-top: 10px; font-size: 9.5px;">DROP-OFF ONLY</div>
+                    </div>
+
+                    <div class="card card-highlight" style="border-top: 4px solid #52DCA4; padding: 18px 14px; text-align: center;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">STAGE 7</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">CONFIRMED</div>
+                        <div style="font-size: 12px; color: #A3B4CC; line-height: 1.45;">Recipient physician verifies received count & condition</div>
+                        <div class="pill pill-green" style="margin-top: 10px; font-size: 9.5px;">CLOSED/RESOLVED</div>
+                    </div>
+                </div>
+
+                <!-- Exception Paths & Non-Repudiation Box -->
+                <div class="grid-3">
+                    <div class="card" style="border-left: 4px solid #FFA44C; padding: 20px 22px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 4px;">EXCEPTION PATH A</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 6px;">Partial Fulfilment Split</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            If 12 of 20 units are verified, 12 units resolve while the remaining 8 units automatically stay active in the regional triage queue for secondary donor offers.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid #FF6878; padding: 20px 22px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FF6878; font-weight: 700; margin-bottom: 4px;">EXCEPTION PATH B</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 6px;">Delivery Dispute Protocol</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            If cargo arrives damaged or missing, the recipient flags a formal dispute. EDITH halts resolution, alerts ICC coordinators, and creates an audit investigation ticket.
+                        </div>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid #2BDCE0; padding: 20px 22px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 4px;">EXCEPTION PATH C</div>
+                        <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-bottom: 6px;">Reassignment & Pivots</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.45;">
+                            If floodwaters submerge transit roads, coordinators can reassign cargo to alternate staging hubs with complete historical state logging.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION B: PROPOSED SOLUTION</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 7: OFFLINE RESILIENCE
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-7">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION B · MOST IMPORTANT DIFFERENTIATOR</div>
+                    <div class="slide-title">Offline Resilience: The EDITH Difference</div>
+                    <div class="slide-subtitle">Preserving operational continuity during network blackouts — without corrupting central state.</div>
+                </div>
+                <div class="slide-badge">SLIDE 07 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- 6 Step Visual Timeline -->
+                <div class="grid-6">
+                    <div class="card" style="border-top: 4px solid #52DCA4; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">STEP 1</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Online Baseline</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">Normal HTTPS connection to FastAPI backend.</div>
+                        <div class="pill pill-green" style="margin-top: 12px; font-size: 9.5px;">CONNECTED</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FF6878; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FF6878; font-weight: 700; margin-bottom: 6px;">STEP 2</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Connection Lost</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">Tower battery dies; PWA service worker intercepts calls.</div>
+                        <div class="pill pill-red" style="margin-top: 12px; font-size: 9.5px;">OFFLINE</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">STEP 3</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Local Capture</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">Doctor drafts request; saved instantly to IndexedDB outbox.</div>
+                        <div class="pill pill-orange" style="margin-top: 12px; font-size: 9.5px;">INDEXEDDB</div>
+                    </div>
+
+                    <div class="card card-highlight" style="border-top: 4px solid #2BDCE0; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">STEP 4</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Explicit UI Truth</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">UI displays amber tag: "Queued Locally · Pending Sync".</div>
+                        <div class="pill pill-cyan" style="margin-top: 12px; font-size: 9.5px;">PENDING SYNC</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">STEP 5</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Signal Returns</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">Sync manager flushes outbox with Idempotency Key.</div>
+                        <div class="pill pill-blue" style="margin-top: 12px; font-size: 9.5px;">REPLAY QUEUE</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #52DCA4; text-align: center; padding: 20px 14px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">STEP 6</div>
+                        <div style="font-size: 15px; font-weight: 700; color: #FFF; margin-bottom: 8px;">Server Commit</div>
+                        <div style="font-size: 12.5px; color: #A3B4CC; line-height: 1.4;">FastAPI validates RBAC, writes DB, returns canonical ID.</div>
+                        <div class="pill pill-green" style="margin-top: 12px; font-size: 9.5px;">CANONICAL ID</div>
+                    </div>
+                </div>
+
+                <!-- 3 Non-Negotiable Engineering Principles -->
+                <div class="grid-3">
+                    <div class="card" style="border-left: 4px solid #2BDCE0; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 16px; font-weight: 800; color: #FFF;">No False Mesh Claims</div>
+                            <div class="pill pill-cyan">REALISTIC ARCH</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5;">
+                            Separate disconnected devices cannot magically sync across floodwaters without an active radio or physical communication path. EDITH never makes false claims of peer-to-peer miracles.
+                        </p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid #FFA44C; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 16px; font-weight: 800; color: #FFF;">Truth Transparency</div>
+                            <div class="pill pill-orange">UI INTEGRITY</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5;">
+                            A locally-saved draft is never presented to the user as a server-confirmed record. Un-synced requests carry a distinct visual warning and temporary UUID to avoid false confidence.
+                        </p>
+                    </div>
+
+                    <div class="card" style="border-left: 4px solid #52DCA4; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 16px; font-weight: 800; color: #FFF;">Idempotency Protection</div>
+                            <div class="pill pill-green">ZERO DUPLICATES</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5;">
+                            When an intermittent 2G connection flickers, repeated sync retries cannot create duplicate emergency tickets or allocate supplies twice. Server-side idempotency keys enforce safe replay.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION B: OFFLINE RESILIENCE</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 8: SYSTEM ARCHITECTURE
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-8">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION C · SYSTEM ARCHITECTURE</div>
+                    <div class="slide-title">Three-Tier Modular Architecture for Resilient Coordination</div>
+                    <div class="slide-subtitle">Strict separation of concerns enforcing human authority, offline survival, and ACID truth.</div>
+                </div>
+                <div class="slide-badge">SLIDE 08 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-3">
+                    <!-- Tier 1 -->
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">TIER 1 · CLIENT PWA</div>
+                            <div class="pill pill-cyan">PRESENTATION</div>
+                        </div>
+                        <div style="font-size: 13px; color: #2BDCE0; font-family: 'JetBrains Mono'; margin-bottom: 12px;">
+                            Vanilla HTML5 · CSS3 · Modern ES6+ JS
+                        </div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px; margin-bottom: 16px;">
+                            <li><strong>Service Worker:</strong> Pre-caches application shell, icons, and offline fallback screens.</li>
+                            <li><strong>IndexedDB Outbox:</strong> Stores pending mutations and cached entity reads.</li>
+                            <li><strong>Sync Engine:</strong> Background retry manager with exponential backoff and network probes.</li>
+                        </ul>
+                        <div style="background: rgba(43, 220, 224, 0.08); border-radius: 6px; padding: 10px 14px; font-size: 12px; font-family: 'JetBrains Mono'; color: #2BDCE0;">
+                            Performance: Sub-500ms initial load on 2G connections
+                        </div>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="card card-highlight" style="border-top: 4px solid #4C91FF; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">TIER 2 · API SERVICES</div>
+                            <div class="pill pill-blue">BUSINESS LOGIC</div>
+                        </div>
+                        <div style="font-size: 13px; color: #4C91FF; font-family: 'JetBrains Mono'; margin-bottom: 12px;">
+                            FastAPI 0.115+ · Pydantic v2 · Python 3.12
+                        </div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px; margin-bottom: 16px;">
+                            <li><strong>Modular Monolith:</strong> Auth, Facilities, Requests, Offers, Allocations, Logistics, Sync.</li>
+                            <li><strong>Boundary Validation:</strong> Strict Pydantic contracts reject malformed offline payloads.</li>
+                            <li><strong>Idempotency Guard:</strong> Middleware detects duplicated network requests via UUID keys.</li>
+                        </ul>
+                        <div style="background: rgba(76, 145, 255, 0.08); border-radius: 6px; padding: 10px 14px; font-size: 12px; font-family: 'JetBrains Mono'; color: #4C91FF;">
+                            Throughput: Asynchronous non-blocking event loop
+                        </div>
+                    </div>
+
+                    <!-- Tier 3 -->
+                    <div class="card" style="border-top: 4px solid #52DCA4; padding: 24px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF;">TIER 3 · DATA STORE</div>
+                            <div class="pill pill-green">AUTHORITATIVE TRUTH</div>
+                        </div>
+                        <div style="font-size: 13px; color: #52DCA4; font-family: 'JetBrains Mono'; margin-bottom: 12px;">
+                            PostgreSQL 16 (Dockerized) · SQLAlchemy 2.0
+                        </div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px; margin-bottom: 16px;">
+                            <li><strong>ACID Guarantees:</strong> Authoritative shared state; strict relational schema constraints.</li>
+                            <li><strong>Row-Level Locks:</strong> <code>SELECT ... FOR UPDATE</code> eliminates race conditions on allocations.</li>
+                            <li><strong>Immutable Audit Log:</strong> Append-only table logging actor, timestamp, and diff for every shift.</li>
+                        </ul>
+                        <div style="background: rgba(82, 220, 164, 0.08); border-radius: 6px; padding: 10px 14px; font-size: 12px; font-family: 'JetBrains Mono'; color: #52DCA4;">
+                            Deployment: Single-container reproducible image
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auxiliary Architecture Banner: AI Role -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(255, 164, 76, 0.35); display: flex; justify-content: space-between; align-items: center; padding: 16px 24px;">
+                    <div>
+                        <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 4px;">AUXILIARY INTEGRATION: OPTIONAL ASSISTIVE AI SCOPE</div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.45;">
+                            External LLM APIs strictly limited to secondary tasks: audio transcription, structured request extraction, and triage summaries. <strong>Zero autonomous decision-making power; fail-safe graceful degradation if offline.</strong>
+                        </div>
+                    </div>
+                    <div class="pill pill-orange">FAIL-SAFE ASSISTIVE ONLY</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION C: SYSTEM ARCHITECTURE</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 9: TECHNOLOGY MATRIX (TABLE)
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-9">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION C · TECHNOLOGY MATRIX</div>
+                    <div class="slide-title">Deliberate Engineering Choices: Built for Field Feasibility</div>
+                    <div class="slide-subtitle">Every technology selected for minimal resource footprint, high resilience, and rapid deployment.</div>
+                </div>
+                <div class="slide-badge">SLIDE 09 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="card" style="padding: 0; overflow: hidden; border: 1px solid rgba(76, 145, 255, 0.25);">
+                    <table class="edith-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 17%;">Architectural Layer</th>
+                                <th style="width: 25%;">Selected Technology</th>
+                                <th style="width: 58%;">Operational Justification & Field Fit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Frontend Interface</strong></td>
+                                <td style="color: #2BDCE0; font-family: 'JetBrains Mono'; font-weight: 600;">Vanilla HTML5, CSS3, Modern JS</td>
+                                <td>Zero framework bloat or compilation overhead; guarantees instant load and buttery responsiveness even on low-end budget smartphones.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Offline Shell</strong></td>
+                                <td style="color: #2BDCE0; font-family: 'JetBrains Mono'; font-weight: 600;">Service Worker & Cache API</td>
+                                <td>Enables offline launching, home-screen installation without app store friction, and robust fallback routing when network drops.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Client Persistence</strong></td>
+                                <td style="color: #2BDCE0; font-family: 'JetBrains Mono'; font-weight: 600;">IndexedDB (Native Browser DB)</td>
+                                <td>Provides high-capacity, transactional, structured local storage for pending outbox mutations and local read caches.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Backend Framework</strong></td>
+                                <td style="color: #4C91FF; font-family: 'JetBrains Mono'; font-weight: 600;">Python FastAPI (v0.115+)</td>
+                                <td>Lightweight ASGI micro-framework with native async request pipeline, automatic OpenAPI documentation, and minimal memory usage.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contract Validation</strong></td>
+                                <td style="color: #4C91FF; font-family: 'JetBrains Mono'; font-weight: 600;">Pydantic v2 (Rust Core)</td>
+                                <td>High-speed data boundary validation ensuring corrupted or incomplete offline payloads are caught and rejected cleanly.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data Access / ORM</strong></td>
+                                <td style="color: #4C91FF; font-family: 'JetBrains Mono'; font-weight: 600;">SQLAlchemy 2.0 (Psycopg 3)</td>
+                                <td>Type-safe database abstraction with granular transaction control, explicit connection pooling, and row-level locking support.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Authoritative Store</strong></td>
+                                <td style="color: #52DCA4; font-family: 'JetBrains Mono'; font-weight: 600;">PostgreSQL 16 (Dockerized)</td>
+                                <td>World-class ACID durability, proven concurrency control, JSONB support for flexible audit trails, and containerized portability.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Testing & Verification</strong></td>
+                                <td style="color: #FFA44C; font-family: 'JetBrains Mono'; font-weight: 600;">Pytest, Asyncio, Playwright</td>
+                                <td>Automated test suites covering concurrent allocation race conditions, idempotency replays, and simulated offline recovery.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Engineering Takeaway Banner -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.5;">
+                        <strong style="color: #52DCA4;">Stack Rationale:</strong> By relying on standard web APIs (Service Worker, IndexedDB) and a lightweight FastAPI/PostgreSQL backend, EDITH requires zero expensive licenses and runs smoothly on low-cost disaster command infrastructure.
+                    </div>
+                    <div class="pill pill-green">ZERO PROPRIETARY LOCK-IN</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION C: TECHNOLOGY MATRIX</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 10: INTEGRITY & SECURITY
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-10">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION C · INTEGRITY & SECURITY</div>
+                    <div class="slide-title">Data Integrity, Security & Concurrency Controls</div>
+                    <div class="slide-subtitle">Engineering safeguards that eliminate race conditions, unauthorized actions, and data corruption.</div>
+                </div>
+                <div class="slide-badge">SLIDE 10 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-2">
+                    <!-- Pillar 1 -->
+                    <div class="card" style="border-left: 4px solid #2BDCE0; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 17px; font-weight: 800; color: #FFFFFF;">1. Role-Based Access Control (RBAC)</div>
+                            <div class="pill pill-cyan">AUTHORITY BOUNDARIES</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 12px;">
+                            Permissions are enforced strictly by backend API middleware and database foreign key checks, never merely hidden in the UI:
+                        </p>
+                        <ul style="font-size: 13px; color: #A3B4CC; line-height: 1.5; padding-left: 18px;">
+                            <li><strong>Hospital / Camp Users:</strong> Scoped strictly to drafting requests and voluntary offers for their own registered facility.</li>
+                            <li><strong>ICC Coordinators:</strong> Global zone authority to acknowledge, triage, approve allocations, and close tickets.</li>
+                            <li><strong>Logistics Drivers:</strong> Scoped strictly to updating shipment progress and logging cargo drop-off.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="card card-highlight" style="border-left: 4px solid #52DCA4; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 17px; font-weight: 800; color: #FFFFFF;">2. Atomic Allocation & Race Prevention</div>
+                            <div class="pill pill-green">ACID ROW LOCKS</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 10px;">
+                            <strong>Disaster Scenario:</strong> Two coordinators simultaneously attempt to allocate the final 10 oxygen cylinders from Hospital Beta to two different camps.
+                        </p>
+                        <div style="background: rgba(0, 0, 0, 0.35); border-radius: 6px; padding: 12px; font-family: 'JetBrains Mono'; font-size: 11.5px; color: #52DCA4; line-height: 1.45; margin-bottom: 10px;">
+                            SELECT quantity_available FROM offers WHERE id = :id FOR UPDATE;<br>
+                            -- Row is locked; Coordinator A commits 10; remaining becomes 0.<br>
+                            -- Coordinator B's lock releases; detects 0 available; gracefully rejected with 409 Conflict.
+                        </div>
+                        <div style="font-size: 12.5px; color: #A3B4CC;">Guarantees zero physical over-allocation under peak crisis concurrency.</div>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="card" style="border-left: 4px solid #FFA44C; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 17px; font-weight: 800; color: #FFFFFF;">3. Idempotency & Duplicate Prevention</div>
+                            <div class="pill pill-orange">SAFE REPLAY</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 10px;">
+                            When unstable cellular links drop mid-transmission, automated client retries can accidentally spawn duplicate tickets:
+                        </p>
+                        <ul style="font-size: 13px; color: #A3B4CC; line-height: 1.5; padding-left: 18px;">
+                            <li>Every mutation payload generates a client-side UUID v4 <code>X-Idempotency-Key</code>.</li>
+                            <li>The backend verifies this key against the <code>processed_operations</code> table before execution.</li>
+                            <li>Repeated requests return the cached original response without creating duplicate records.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 4 -->
+                    <div class="card" style="border-left: 4px solid #FF6878; padding: 22px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 17px; font-weight: 800; color: #FFFFFF;">4. Two-Phase Fulfilment Verification</div>
+                            <div class="pill pill-red">NON-REPUDIATION</div>
+                        </div>
+                        <p style="font-size: 13.5px; color: #C2D1E5; line-height: 1.5; margin-bottom: 10px;">
+                            Dispatching relief cargo is not proof of arrival:
+                        </p>
+                        <ul style="font-size: 13px; color: #A3B4CC; line-height: 1.5; padding-left: 18px;">
+                            <li>Driver logs physical drop-off with vehicle ID and timestamp at the destination gate.</li>
+                            <li><strong>Resolution is NOT triggered:</strong> Ticket remains in <code>DELIVERED_PENDING_VERIFICATION</code>.</li>
+                            <li>The receiving medical officer must log in, inspect cargo, and verify physical count.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION C: DATA INTEGRITY & SECURITY</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 11: COMMAND DASHBOARD (DEMO)
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-11">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION D · INTERFACE MOCKUP (ILLUSTRATIVE DEMO DATA)</div>
+                    <div class="slide-title">Command-Centre Dashboard: Real-Time Operational Triage</div>
+                    <div class="slide-subtitle">High-density, low-cognitive-load interface designed for disaster coordinators.</div>
+                </div>
+                <div class="slide-badge">SLIDE 11 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- Top Ribbon -->
+                <div style="background: rgba(17, 29, 51, 0.95); border: 1px solid rgba(76, 145, 255, 0.35); border-radius: 10px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="font-weight: 800; font-size: 14px; color: #FFFFFF;">INCIDENT COMMAND CENTRE · SECTOR 4 DISASTER DESK</span>
+                        <span class="pill pill-green" style="font-size: 10.5px;">● NETWORK: CONNECTED</span>
+                        <span class="pill pill-cyan" style="font-size: 10.5px;">LAST SYNC: 3s AGO</span>
+                    </div>
+                    <div style="font-family: 'JetBrains Mono'; font-size: 12px; color: #FFA44C; font-weight: 600;">
+                        SIMULATED TEST DATA · CYCLONE SCENARIO
+                    </div>
+                </div>
+
+                <!-- KPI Metric Cards -->
+                <div class="grid-4">
+                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #2BDCE0;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">TOTAL OPEN REQUESTS</div>
+                        <div style="font-size: 30px; font-weight: 800; color: #FFFFFF; margin: 4px 0;">34</div>
+                        <div style="font-size: 12px; color: #2BDCE0;">8 Critical · 14 High · 12 Normal</div>
+                    </div>
+                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #FF6878;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">UNACKNOWLEDGED NEEDS</div>
+                        <div style="font-size: 30px; font-weight: 800; color: #FF6878; margin: 4px 0;">3</div>
+                        <div style="font-size: 12px; color: #FFB3BA;">Requires Immediate Coordinator Triage</div>
+                    </div>
+                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #FFA44C;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">OFFERS PENDING SIGN-OFF</div>
+                        <div style="font-size: 30px; font-weight: 800; color: #FFA44C; margin: 4px 0;">6</div>
+                        <div style="font-size: 12px; color: #FFDFB9;">Donor Matches Awaiting Allocation Lock</div>
+                    </div>
+                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #52DCA4;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #A3B4CC;">IN TRANSIT / ACTIVE FLEET</div>
+                        <div style="font-size: 30px; font-weight: 800; color: #52DCA4; margin: 4px 0;">12</div>
+                        <div style="font-size: 12px; color: #B3F5D9;">Logistics Vehicles En Route to Camps</div>
+                    </div>
+                </div>
+
+                <!-- Two Column Layout: Triage Feed & Detail Panel -->
+                <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px;">
+                    <!-- Left: Request Feed Table -->
+                    <div class="card" style="padding: 0; overflow: hidden; border: 1px solid rgba(76, 145, 255, 0.25);">
+                        <div style="background: rgba(17, 29, 51, 0.95); padding: 10px 16px; font-size: 12px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; border-bottom: 1px solid rgba(76, 145, 255, 0.3);">
+                            ACTIVE EMERGENCY QUEUE (SECTOR 4)
+                        </div>
+                        <table class="edith-table" style="font-size: 12.5px;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Facility</th>
+                                    <th>Required Items</th>
+                                    <th>Status</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: rgba(43, 220, 224, 0.08);">
+                                    <td style="font-family: 'JetBrains Mono'; font-weight: 700; color: #2BDCE0;">REQ-0842</td>
+                                    <td><strong>Camp Alpha (Govt HSS)</strong></td>
+                                    <td>25 O2 Cylinders <span class="pill pill-red" style="font-size: 8px;">CRITICAL</span></td>
+                                    <td><span class="pill pill-blue">ACKNOWLEDGED</span></td>
+                                    <td style="font-family: 'JetBrains Mono'; color: #A3B4CC;">14m</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'JetBrains Mono'; font-weight: 700;">REQ-0839</td>
+                                    <td>Apollo Field Clinic</td>
+                                    <td>40 Units O- Blood <span class="pill pill-red" style="font-size: 8px;">CRITICAL</span></td>
+                                    <td><span class="pill pill-orange">IN TRANSIT (15/40)</span></td>
+                                    <td style="font-family: 'JetBrains Mono'; color: #A3B4CC;">42m</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'JetBrains Mono'; font-weight: 700;">REQ-0835</td>
+                                    <td>Camp Delta (Maternity)</td>
+                                    <td>500L Saline IV <span class="pill pill-orange" style="font-size: 8px;">HIGH</span></td>
+                                    <td><span class="pill pill-cyan">OFFER RECEIVED</span></td>
+                                    <td style="font-family: 'JetBrains Mono'; color: #A3B4CC;">1h 10m</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: 'JetBrains Mono'; font-weight: 700;">REQ-0830</td>
+                                    <td>PHC Kadambur</td>
+                                    <td>1x 15kVA Generator <span class="pill pill-red" style="font-size: 8px;">CRITICAL</span></td>
+                                    <td><span class="pill pill-green">VERIFIED RESOLVED</span></td>
+                                    <td style="font-family: 'JetBrains Mono'; color: #A3B4CC;">2h 05m</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Right: Selected Request Detail -->
+                    <div class="card card-highlight" style="padding: 18px 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 16px; font-weight: 800; color: #FFFFFF;">DETAILS: REQ-0842</div>
+                            <div class="pill pill-blue">OWNER: ICC-COORD-02</div>
+                        </div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; margin-bottom: 12px; line-height: 1.45;">
+                            <strong>Camp Alpha (Govt HSS)</strong> · Velachery Sector<br>
+                            <span style="color: #A3B4CC;">Need: 25 D-Type Oxygen Cylinders (Pediatric Emergency)</span>
+                        </div>
+                        
+                        <div style="background: rgba(17, 29, 51, 0.9); border-radius: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid rgba(43, 220, 224, 0.3);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 4px;">LINKED VOLUNTEER OFFER</div>
+                            <div style="font-size: 13px; color: #FFFFFF; font-weight: 600;">Coimbatore Medical College Hospital</div>
+                            <div style="font-size: 12px; color: #52DCA4;">15 Oxygen Cylinders available for immediate dispatch</div>
+                            <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                <div class="pill pill-green" style="font-size: 9.5px;">APPROVE ALLOCATION</div>
+                                <div class="pill pill-orange" style="font-size: 9.5px;">PARTIAL SPLIT: 15/25</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 11.5px; font-family: 'JetBrains Mono'; color: #A3B4CC; line-height: 1.4;">
+                            AUDIT TIMELINE: 14:02 Created · 14:08 Acknowledged by Anand M. · 14:15 Offer Logged
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION D: COMMAND DASHBOARD</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 12: DEMO SCENARIO
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-12">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION D · SIMULATED DRILL WALKTHROUGH</div>
+                    <div class="slide-title">Demo Scenario: Oxygen Supply Recovery in Cyclone Mandous</div>
+                    <div class="slide-subtitle">Step-by-step resolution of a critical resource shortage amidst intermittent connectivity.</div>
+                </div>
+                <div class="slide-badge">SLIDE 12 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- 5 Phase Chronological Drill -->
+                <div class="grid-5">
+                    <div class="card" style="border-top: 4px solid #FF6878; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FF6878; font-weight: 700; margin-bottom: 6px;">PHASE 1 · 14:02</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Outage at Camp Beta</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Cyclone knocks out power & cellular links at Camp Beta. Dr. Priya identifies urgent need for 20 oxygen cylinders.
+                        </div>
+                        <div class="pill pill-orange" style="font-size: 9.5px;">INDEXEDDB DRAFT</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">PHASE 2 · 14:18</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Transient Signal Sync</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            A satellite telecom van passes nearby, restoring 2G for 40 seconds. EDITH sync manager flushes with Idempotency Key <code>idemp_91a8</code>.
+                        </div>
+                        <div class="pill pill-cyan" style="font-size: 9.5px;">COMMITTED REQ-0512</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">PHASE 3 · 14:25</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">ICC Triage & Offer</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            ICC Commander acknowledges REQ-0512. City Hospital logs voluntary offer: 12 cylinders available for immediate dispatch.
+                        </div>
+                        <div class="pill pill-blue" style="font-size: 9.5px;">VOLUNTARY OFFER</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">PHASE 4 · 14:34</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Atomic Lock & Transit</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            ICC approves allocation. DB row-lock locks 12 units (0 over-allocation). Logistics vehicle TN-01-G-7712 departs with driver.
+                        </div>
+                        <div class="pill pill-orange" style="font-size: 9.5px;">IN TRANSIT</div>
+                    </div>
+
+                    <div class="card card-highlight" style="border-top: 4px solid #52DCA4; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">PHASE 5 · 15:45</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Verified Receipt</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Driver drops cargo. Dr. Priya inspects and verifies 12 units. State splits: 12 confirmed closed, 8 units remain active in queue.
+                        </div>
+                        <div class="pill pill-green" style="font-size: 9.5px;">VERIFIED SPLIT</div>
+                    </div>
+                </div>
+
+                <!-- Proof of Guarantee Summary -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); padding: 18px 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 14px; color: #D3DFEE; line-height: 1.5;">
+                            <strong style="color: #2BDCE0;">What This Drill Proves:</strong> No data was lost during blackout; zero duplicate tickets created on transient reconnection; zero over-allocation occurred; and unfulfilled quota (8 cylinders) was not forgotten.
+                        </div>
+                        <div class="pill pill-cyan">SIMULATED DRILL VALIDATION</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION D: SIMULATED DEMO DRILL</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 13: CAPABILITIES & METRICS
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-13">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION D · VALUE PROPOSITION & METRICS</div>
+                    <div class="slide-title">Core Capabilities & Pilot Validation Metrics</div>
+                    <div class="slide-subtitle">Translating architectural resilience into measurable life-saving coordination outcomes.</div>
+                </div>
+                <div class="slide-badge">SLIDE 13 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- 3 Capability Columns -->
+                <div class="grid-3">
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 22px 24px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 10px;">1. Operational Visibility</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li>Unified multi-facility triage queue with dynamic urgency badges.</li>
+                            <li>Mandatory coordinator assignment eliminating orphaned requests.</li>
+                            <li>Automated SLA timers monitoring unacknowledged critical emergencies.</li>
+                            <li>Immutable audit history documenting every transition.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 22px 24px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 10px;">2. Resource Coordination</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li>Sovereign voluntary offers without exposing total facility inventory.</li>
+                            <li>Transactional atomic allocation eliminating double-promising.</li>
+                            <li>Automatic state-splitting for partial fulfilments.</li>
+                            <li>Transit tracking and formal delivery dispute escalation.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #52DCA4; padding: 22px 24px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 10px;">3. Connectivity Resilience</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li>Offline application shell caching via PWA Service Worker.</li>
+                            <li>IndexedDB transactional outbox buffer preserving field drafts.</li>
+                            <li>Idempotent sync engine preventing duplicate tickets on retry.</li>
+                            <li>Two-phase recipient verification separating dispatch from delivery.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Measurable Validation Hypotheses -->
+                <div class="card card-highlight" style="padding: 22px 26px;">
+                    <div style="font-size: 12px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 14px;">
+                        TARGET PILOT VALIDATION HYPOTHESES (MEASURABLE SUCCESS CRITERIA)
+                    </div>
+                    <div class="grid-5">
+                        <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(43,220,224,0.25);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0;">TIME-TO-ACK</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0;">>65% Faster</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Reduction in unacknowledged request duration</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(76,145,255,0.25);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF;">ACCOUNTABILITY</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0;">100% Owned</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Every emergency linked to a named coordinator</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(82,220,164,0.25);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4;">OVER-ALLOCATION</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0;">0 Errors</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Zero double-commit errors under concurrent load</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,164,76,0.25);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C;">OFFLINE REPLAY</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0;">100% Synced</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Zero data loss across simulated network drops</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255,104,120,0.25);">
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FF6878;">VERIFICATION</div>
+                            <div style="font-size: 20px; font-weight: 800; color: #FFF; margin: 4px 0;">100% Verified</div>
+                            <div style="font-size: 12px; color: #A3B4CC;">Zero tickets resolved without recipient sign-off</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION D: CAPABILITIES & IMPACT</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 14: BUSINESS MODEL & ADOPTION
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-14">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION E · SUSTAINABILITY & ADOPTION</div>
+                    <div class="slide-title">Institutional Adoption Model & Sustainability Pathway</div>
+                    <div class="slide-subtitle">A viable deployment model for humanitarian agencies and public health authorities.</div>
+                </div>
+                <div class="slide-badge">SLIDE 14 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-3">
+                    <!-- Stakeholder Ecosystem -->
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 24px 22px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">Target Customer Ecosystem</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li><strong>State Disaster Management Authorities (SDMAs):</strong> Central operators of Incident Command Centres (ICCs).</li>
+                            <li><strong>Public & Private Hospital Networks:</strong> Secondary supply hubs offering voluntary surplus resources.</li>
+                            <li><strong>Relief NGOs (Red Cross, MSF, Trusts):</strong> Field operators managing temporary relief clinics.</li>
+                            <li><strong>District Emergency Operation Centres (DEOCs):</strong> Regional coordinators managing logistics fleets.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sustainability Model -->
+                    <div class="card card-highlight" style="border-top: 4px solid #4C91FF; padding: 24px 22px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">Sustainability & Operations</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li><strong>Open-Core Public Good:</strong> Core coordination software is auditable to foster inter-agency trust.</li>
+                            <li><strong>Annual Institutional SLA & Hosting:</strong> Managed cloud/edge deployments, automated failover, and disaster-standby support.</li>
+                            <li><strong>Simulation Drills & Onboarding:</strong> Pre-disaster simulation workshops, tabletop exercises, and staff training.</li>
+                            <li><strong>Zero Frontline Barrier:</strong> 100% free for temporary camps and frontline volunteer doctors.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Adoption Roadmap -->
+                    <div class="card" style="border-top: 4px solid #52DCA4; padding: 24px 22px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">Pragmatic Adoption Pathway</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.55; padding-left: 18px;">
+                            <li><strong>Phase 1 · Academic & Hackathon Pilot:</strong> Simulated multi-facility disaster drills in Coimbatore district.</li>
+                            <li><strong>Phase 2 · Tabletop NGO Simulation:</strong> Partner with local humanitarian trusts to test camp workflows.</li>
+                            <li><strong>Phase 3 · District Mock-Drill Integration:</strong> Shadow municipal flood preparedness exercises.</li>
+                            <li><strong>Phase 4 · Institutional Deployment:</strong> Formal SDMA accreditation for active monsoon seasons.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Friction Mitigation Callout -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); display: flex; justify-content: space-between; align-items: center; padding: 18px 24px;">
+                    <div style="font-size: 14px; color: #D3DFEE; line-height: 1.5;">
+                        <strong style="color: #2BDCE0;">Mitigating Public Sector Friction:</strong> Avoiding long procurement cycles by providing a plug-and-play Docker image and zero-login guest drafting for emergency field responders during acute crisis activations.
+                    </div>
+                    <div class="pill pill-cyan">ZERO-FRICTION DEPLOYMENT</div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION E: BUSINESS MODEL & ADOPTION</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 15: FEASIBILITY & RISK MITIGATION
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-15">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION E · FEASIBILITY & RISK MITIGATION</div>
+                    <div class="slide-title">Technical Feasibility, Testing Matrix & Risk Safeguards</div>
+                    <div class="slide-subtitle">Rigorous software engineering that separates practical innovation from speculative concepts.</div>
+                </div>
+                <div class="slide-badge">SLIDE 15 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <div class="grid-2">
+                    <!-- Testing Strategy -->
+                    <div class="card" style="border-top: 4px solid #2BDCE0; padding: 24px 24px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">Comprehensive Testing Matrix</div>
+                        <ul style="font-size: 13.5px; color: #C2D1E5; line-height: 1.6; padding-left: 18px;">
+                            <li><strong>Synthetic Disaster Load Testing:</strong> Scripted simulation of 100+ concurrent requests across 20 simulated medical relief camps.</li>
+                            <li><strong>Concurrency Race Condition Tests:</strong> Automated Pytest suite firing 10 simultaneous allocations against a single remaining stock pool.</li>
+                            <li><strong>Network Chaos Verification:</strong> Automated simulated connection dropouts during active outbox flushes to ensure idempotent recovery.</li>
+                            <li><strong>State Transition Coverage:</strong> 100% automated branch testing across all 7 lifecycle states and exception paths.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Risk Mitigation Table -->
+                    <div class="card card-highlight" style="border-top: 4px solid #FFA44C; padding: 24px 24px;">
+                        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">Operational Risk vs. Mitigation</div>
+                        <div style="font-size: 13.5px; color: #D3DFEE; line-height: 1.55;">
+                            <div style="margin-bottom: 10px;">
+                                <strong style="color: #FFA44C;">Risk: Stale Resource Information</strong><br>
+                                <span style="color: #A3B4CC;">Mitigation: Request-centric model; facilities volunteer only verified unallocated surplus.</span>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <strong style="color: #FFA44C;">Risk: Multi-Device Conflict & Overwrites</strong><br>
+                                <span style="color: #A3B4CC;">Mitigation: Optimistic locking with version integers; server rejects stale updates.</span>
+                            </div>
+                            <div>
+                                <strong style="color: #FFA44C;">Risk: High-Stress Field Adoption Resistance</strong><br>
+                                <span style="color: #A3B4CC;">Mitigation: Ultra-lightweight form design requiring under 30 seconds to submit.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feasibility Summary Banner -->
+                <div class="card" style="background: rgba(17, 29, 51, 0.85); border: 1px solid rgba(76, 145, 255, 0.25); padding: 18px 24px;">
+                    <div class="grid-3" style="text-align: center;">
+                        <div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0;">HARDWARE REQUIREMENT</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-top: 4px;">Minimal Infrastructure</div>
+                            <div style="font-size: 13px; color: #A3B4CC;">Runs smoothly on $20/mo cloud VM or local edge laptop</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4;">ZERO LICENSING FEES</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-top: 4px;">100% Open Standards</div>
+                            <div style="font-size: 13px; color: #A3B4CC;">Zero proprietary vendor lock-in or recurring API costs</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C;">FIELD COMPATIBILITY</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #FFF; margin-top: 4px;">Universal Browser Support</div>
+                            <div style="font-size: 13px; color: #A3B4CC;">Operates on Android, iOS, Windows, Linux, and macOS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION E: FEASIBILITY & RISK MITIGATION</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    # ==========================================
+    # SLIDE 16: ROADMAP & CLOSING
+    # ==========================================
+    slides.append("""
+    <div class="slide" id="slide-16">
+        <div class="slide-content-wrap">
+            <div class="slide-header">
+                <div class="slide-header-left">
+                    <div class="section-eyebrow">SECTION F · ROADMAP & CLOSING VISION</div>
+                    <div class="slide-title">Execution Roadmap & The EDITH Commitment</div>
+                    <div class="slide-subtitle">From hackathon baseline to hardened institutional disaster deployment.</div>
+                </div>
+                <div class="slide-badge">SLIDE 16 / 16</div>
+            </div>
+
+            <div class="slide-body">
+                <!-- 5 Phase Visual Roadmap -->
+                <div class="grid-5">
+                    <div class="card card-highlight" style="border-top: 4px solid #52DCA4; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">PHASE 1</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Core Coordination</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Authentication, RBAC boundaries, request lifecycle state machine, and append-only audit trail.
+                        </div>
+                        <div class="pill pill-green" style="font-size: 9.5px;">BASELINE READY</div>
+                    </div>
+
+                    <div class="card card-highlight" style="border-top: 4px solid #52DCA4; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #52DCA4; font-weight: 700; margin-bottom: 6px;">PHASE 2</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Resource Flow</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Voluntary offers, atomic row-lock allocation, logistics drop-off, and verified fulfilment.
+                        </div>
+                        <div class="pill pill-green" style="font-size: 9.5px;">BASELINE READY</div>
+                    </div>
+
+                    <div class="card card-highlight" style="border-top: 4px solid #2BDCE0; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #2BDCE0; font-weight: 700; margin-bottom: 6px;">PHASE 3</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Offline Resilience</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Service Worker app-shell cache, IndexedDB outbox queue, and idempotent background sync.
+                        </div>
+                        <div class="pill pill-cyan" style="font-size: 9.5px;">BASELINE READY</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #4C91FF; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #4C91FF; font-weight: 700; margin-bottom: 6px;">PHASE 4</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Hardening & QA</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Network chaos testing, high-concurrency race stress tests, and tabletop disaster drills.
+                        </div>
+                        <div class="pill pill-blue" style="font-size: 9.5px;">PLANNED Q1</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid #FFA44C; padding: 20px 16px;">
+                        <div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #FFA44C; font-weight: 700; margin-bottom: 6px;">PHASE 5</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Assistive AI</div>
+                        <div style="font-size: 13px; color: #A3B4CC; line-height: 1.5; margin-bottom: 12px;">
+                            Audio speech-to-text intake, automated request summarization, and duplicate ticket suggestions.
+                        </div>
+                        <div class="pill pill-orange" style="font-size: 9.5px;">FUTURE SCOPE</div>
+                    </div>
+                </div>
+
+                <!-- Final Vision & Closing Statement -->
+                <div class="card" style="border-left: 6px solid #2BDCE0; padding: 26px 32px; text-align: center; background: linear-gradient(135deg, rgba(23, 42, 74, 0.95) 0%, rgba(17, 29, 51, 0.9) 100%);">
+                    <div style="font-size: 24px; font-weight: 700; color: #FFFFFF; line-height: 1.45; margin-bottom: 16px; font-style: italic;">
+                        "EDITH turns fragmented emergency requests into accountable, traceable coordination — designed for the moments connectivity cannot be taken for granted."
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 24px; font-size: 15px; color: #2BDCE0; font-weight: 600;">
+                        <span>TEAM JARVIS</span>
+                        <span>·</span>
+                        <span>RATHINAM TECHNICAL CAMPUS</span>
+                        <span>·</span>
+                        <span style="color: #A3B4CC;">PURUSOUTHANAN B · SAKTHIVEL R · SANJO THOMAS · SHEIK ARSH S</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <div class="slide-footer-left"><span>EDITH</span><span>·</span><span>EMERGENCY DISPATCH & INTELLIGENCE TRACKING HUB</span></div>
+                <div class="slide-footer-center">TEAM JARVIS · RATHINAM TECHNICAL CAMPUS</div>
+                <div class="slide-footer-right">SECTION F: ROADMAP & CLOSING</div>
+            </div>
+        </div>
+    </div>
+    """)
+
+    full_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EDITH — Hackathon Pitch Deck</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@page {{
+    size: 1920px 1080px;
+    margin: 0;
+}}
+
+* {{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}}
+
+body {{
+    background-color: #050B14;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #F4F8FF;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}}
+
+.slide {{
+    width: 1920px;
+    height: 1080px;
+    max-width: 1920px;
+    max-height: 1080px;
+    position: relative;
+    overflow: hidden;
+    background: #091020;
+    padding: 48px 68px 36px 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+    break-after: page;
+}}
+
+.slide::before {{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 85% 15%, rgba(43, 220, 224, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 15% 85%, rgba(76, 145, 255, 0.06) 0%, transparent 45%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 64px 64px, 64px 64px;
+    pointer-events: none;
+    z-index: 0;
+}}
+
+.slide-content-wrap {{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}}
+
+.slide-header {{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(76, 145, 255, 0.22);
+    padding-bottom: 14px;
+}}
+
+.slide-header-left {{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}}
+
+.section-eyebrow {{
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #2BDCE0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
+
+.section-eyebrow::before {{
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #2BDCE0;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #2BDCE0;
+}}
+
+.slide-title {{
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #FFFFFF;
+    line-height: 1.15;
+}}
+
+.slide-subtitle {{
+    font-size: 15.5px;
+    font-weight: 400;
+    color: #A3B4CC;
+    line-height: 1.35;
+}}
+
+.slide-badge {{
+    background: rgba(17, 29, 51, 0.85);
+    border: 1px solid rgba(76, 145, 255, 0.35);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4C91FF;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
+
+.slide-body {{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 20px;
+    min-height: 0;
+}}
+
+.slide-footer {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 12px;
+    font-size: 12px;
+    color: #72849E;
+    font-family: 'JetBrains Mono', monospace;
+}}
+
+.slide-footer-left {{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}}
+
+.slide-footer-center {{
+    font-weight: 500;
+    color: #A3B4CC;
+}}
+
+.slide-footer-right {{
+    color: #2BDCE0;
+    font-weight: 600;
+}}
+
+.card {{
+    background: linear-gradient(135deg, rgba(17, 29, 51, 0.90) 0%, rgba(21, 34, 56, 0.78) 100%);
+    border: 1px solid rgba(76, 145, 255, 0.20);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}}
+
+.card-highlight {{
+    background: linear-gradient(135deg, rgba(23, 42, 74, 0.94) 0%, rgba(17, 29, 51, 0.88) 100%);
+    border: 1px solid rgba(43, 220, 224, 0.45);
+    box-shadow: 0 8px 30px rgba(43, 220, 224, 0.14);
+}}
+
+.pill {{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3.5px 10px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}}
+
+.pill-cyan {{ background: rgba(43, 220, 224, 0.15); color: #2BDCE0; border: 1px solid rgba(43, 220, 224, 0.3); }}
+.pill-blue {{ background: rgba(76, 145, 255, 0.15); color: #4C91FF; border: 1px solid rgba(76, 145, 255, 0.3); }}
+.pill-green {{ background: rgba(82, 220, 164, 0.15); color: #52DCA4; border: 1px solid rgba(82, 220, 164, 0.3); }}
+.pill-orange {{ background: rgba(255, 164, 76, 0.15); color: #FFA44C; border: 1px solid rgba(255, 164, 76, 0.3); }}
+.pill-red {{ background: rgba(255, 104, 120, 0.15); color: #FF6878; border: 1px solid rgba(255, 104, 120, 0.3); }}
+
+.edith-table {{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    text-align: left;
+}}
+
+.edith-table th {{
+    background: rgba(17, 29, 51, 0.95);
+    color: #2BDCE0;
+    font-weight: 700;
+    padding: 11px 15px;
+    border-bottom: 2px solid rgba(76, 145, 255, 0.35);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.5px;
+}}
+
+.edith-table td {{
+    padding: 11px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #D3DFEE;
+    line-height: 1.4;
+}}
+
+.edith-table tr:nth-child(even) td {{
+    background: rgba(17, 29, 51, 0.35);
+}}
+
+.grid-2 {{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }}
+.grid-3 {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }}
+.grid-4 {{ display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 18px; }}
+.grid-5 {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }}
+.grid-6 {{ display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }}
+
+</style>
+</head>
+<body>
+{''.join(slides)}
+</body>
+</html>
+"""
+
+    with open(HTML_PATH, "w", encoding="utf-8") as f:
+        f.write(full_html)
+    print(f"Enhanced HTML written to: {HTML_PATH}")
+
+if __name__ == "__main__":
+    build_enhanced_html()
